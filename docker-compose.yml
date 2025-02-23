@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=sqlite:///db.sqlite3
+
+  db:
+    image: nouchka/sqlite3
+    volumes:
+      - sqlite_data:/var/lib/sqlite
+
+volumes:
+  sqlite_data:
